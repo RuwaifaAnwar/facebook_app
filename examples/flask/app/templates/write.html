@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}   
+<div class="center">
+   
+      <h1>Write your post</h1>
+		<form action="/write">
+		<textarea name="text" cols="50" rows="5">
+		</textarea>
+		<br />
+		<input type="submit" name="p_type" value="Published" />
+		<input type="submit" name="p_type" value="Unpublished" />
+		<input type=hidden name=page_id value={{ page_id }}>
+
+		</form>
+</div>
+{% endblock %}

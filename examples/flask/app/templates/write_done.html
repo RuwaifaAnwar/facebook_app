@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}   
+<div class="center">
+   
+      <h1>Write done</h1>
+
+	</br>
+    <a href="/" id="home">Home<br></a>
+    <a href="/logout" id="logout">Log out<br></a>
+    <script>
+        document.getElementById('logout').onclick = function() {
+            FB.logout(function(response) { });
+        };
+    </script>
+
+</div>
+{% endblock %}

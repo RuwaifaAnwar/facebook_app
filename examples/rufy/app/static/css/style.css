@@ -20,8 +20,3 @@ body {
     border-radius: 100%;
     display: block;
 }
-
-
-.button-class{
-    width: 150px; height: 20px; border: 100px; padding=5px;  background:#ccd;  -webkit-border-radius: 5px; 
-}

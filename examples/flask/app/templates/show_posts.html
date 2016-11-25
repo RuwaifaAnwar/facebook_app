@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}   
+<div class="center">
+   
+      <h1>Showing Posts</h1>
+      	<h5>
+		{% if posts_info[0] | length == 0 %}
+			Posts ended
+		{% endif %}
+
+
+		{% for post in posts_info[0] %}
+
+
+		<p>
+		{{ post[0][0:50] }} 
+		</br>
+		Total Views: {{ post[1] }}
+		</p>
+		{% endfor %}    
+		<form action="/show">
+		<input type=hidden name=next value={{ posts_info[1] }}>
+		<input type=hidden name=page_id value={{ posts_info[2] }}>
+		<input type=hidden name=referrer value=not_home>
+
+		<input type=hidden name=r_type value="not_home">
+		{% if posts_info[2] != "None" %}
+		<input type="submit" name="p_type" value="Next" class = "button-class"/>
+		{% endif %}
+		</form>
+ 
+	</br>
+    <a href="/" id="home">Home<br></a>
+    <a href="/logout" id="logout">Log out<br></a>
+    <script>
+        document.getElementById('logout').onclick = function() {
+            FB.logout(function(response) { });
+        };
+    </script>
+
+</div>
+{% endblock %}

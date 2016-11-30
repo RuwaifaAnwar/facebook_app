@@ -3,7 +3,6 @@
 <div class="center">
    
       <h1>Showing Posts</h1>
-      	<h5>
 		{% if posts_info[0] | length == 0 %}
 			Posts ended
 		{% endif %}
@@ -13,9 +12,11 @@
 
 
 		<p>
-		{{ post[0][0:50] }} 
+		{{ post[0] }} 
 		</br>
+      	<h5>
 		Total Views: {{ post[1] }}
+		</h5>
 		</p>
 		{% endfor %}    
 		<form action="/show">

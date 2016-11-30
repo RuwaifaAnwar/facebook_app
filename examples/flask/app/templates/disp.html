@@ -3,6 +3,7 @@
 <div class="center">
 
       <h1>Pages associated with the user</h1>
+
 		<form name="myForm" action="show" method="GET" >
 		<h5>
 		{% for page in pages %}
@@ -12,8 +13,10 @@
 		<input type="radio" name="page_id" value={{ page[1] }} > {{ page[0]}}  
 		</p>
 		{% endfor %}     
-		<p><input type="submit" name="r_type" value="Show" class = "button-class">
-		<input type="submit" name="r_type" value="Create" class = "button-class" >
+		<button type="submit" name="r_type" value="Show_Published" class = "button-class"> Show Published Posts</button > 
+		<button type="submit" name="r_type" value="Show_UnPublished" class = "button-class"> Show Unpublished Posts</button >
+		</br> </br> 			
+		<button type="submit" name="r_type" value="Create" class = "button-class"> Create a Post</button >
 		<input type="hidden" name="referrer" value="home">
 
 		</form>

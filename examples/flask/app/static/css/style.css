@@ -3,6 +3,18 @@ body {
     text-align: center;
 }
 
+.center2 {
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    width: 50%;
+    height: 50%;
+    min-width: 200px;
+    max-width: 400px;
+    padding: 40px;
+    /* text-align: left */
+}
+
 .center {
     margin: auto;
     position: absolute;
@@ -12,7 +24,9 @@ body {
     min-width: 200px;
     max-width: 400px;
     padding: 40px;
+    text-align: left 
 }
+
 
 .circle-image {
     width: 200px;
@@ -24,4 +38,8 @@ body {
 
 .button-class{
     width: 150px; height: 20px; border: 100px; padding=5px;  background:#ccd;  -webkit-border-radius: 5px; 
+}
+
+.slight_right{
+      position:relative; left:80px; top:20px; 
 }

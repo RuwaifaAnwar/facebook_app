@@ -4,11 +4,10 @@
    
       <h1>Write your post</h1>
 		<form action="/write">
-		<textarea name="text" cols="50" rows="5">
-		</textarea>
+		<textarea name="text" cols="50" rows="5"></textarea>
 		<br />
-		<input type="submit" name="p_type" value="Published" />
-		<input type="submit" name="p_type" value="Unpublished" />
+		<input type="submit" name="p_type" value="Published" class = "button-class"/>
+		<input type="submit" name="p_type" value="Unpublished" class = "button-class" />
 		<input type=hidden name=page_id value={{ page_id }}>
 
 		</form>

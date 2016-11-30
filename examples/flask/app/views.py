@@ -12,14 +12,13 @@ from threading import *
 FB_APP_ID = '1335682093131967'
 FB_APP_NAME = 'testing'
 FB_APP_SECRET = '7cc4885f7b114f87747bb664d6a3a200'
-mytoken="bla"
+mytoken=""
 
 def print_me(string):
     print(string, file=sys.stderr)
 
 
 def get_accounts():
-    print_me(mytoken)
     graph = facebook.GraphAPI(mytoken)
     pages = graph.get_object('me/accounts')
     #pprint (pages['data'])
@@ -39,9 +38,11 @@ def get_views(token, id, views_dict):
     post = graph.get_connections(id, 'insights/post_impressions')
     views_dict[id] = post['data'][0]['values'][0]['value']
 
-def write_post(id,text, published):
-    graph = facebook.GraphAPI(id)
-    graph.put_object(parent_object='me', connection_name = 'feed', message = text, published = published)
+
+def write_post(id, args):
+    graph = facebook.GraphAPI(id) 
+    graph.put_object(parent_object='me', connection_name = 'feed', **args)
+
 
 def get_posts_from_graph_object(obj):
     posts = obj['data']
@@ -61,7 +62,9 @@ def show_pages():
     if request.args['referrer']=="home":
         graph = facebook.GraphAPI(page_id)
         pages = graph.get_object('me')
-        res = graph.get_connections(pages['id'], 'feed', limit=6)
+        is_published = request.args['r_type'] == "Show_Published"
+        print_me(is_published)
+        res = graph.get_connections(pages['id'], 'promotable_posts', is_published=is_published, limit=8)
     else:
         res = requests.request("GET",request.args['next']).json()
 
@@ -70,11 +73,13 @@ def show_pages():
     
     views_dict={}
     thread_list = []
-    message_dict={}
+    message_dict={} 
+    id_list=[]
     for post in posts:
         if "message" in post:
             post_id = post['id']
             message_dict[post_id] = post['message']
+            id_list.append(post_id)
             thread=Thread(target=get_views,args=(page_id, post_id, views_dict) )
             thread.start()
             thread_list.append(thread)
@@ -83,44 +88,27 @@ def show_pages():
         thread.join()
 
     posts_info=[]
-    for i in message_dict:
+    for i in id_list:
         posts_info.append(  (message_dict[i], views_dict[i] ) )
     return render_template('show_posts.html', posts_info=(posts_info,next_page,page_id))
 
-@app.route('/show_more', methods=['POST', 'GET'])
-def show_more_posts():
-    return "deprecated"
-    res = requests.request("GET",request.args['next']).json()
-    page_id=request.args['page_id']
-    posts,next_page = get_posts_from_graph_object(res)
-    posts_info=[]
-    print_me(posts)
-    for i in posts:
-        if "message" in i:
-            views=get_views(page_id,i['id'])
-            posts_info.append(  (i['message'], views ) )
-    return render_template('show_posts.html', posts_info=(posts_info,next_page,page_id))
 
 
 @app.route('/write', methods=['POST', 'GET'])
 def write_page():
     page_id = request.args['page_id']
-    text = request.args['text']
-    if request.args['p_type']=='Published':
-        published = "1"
-    else:
-        published = "0"
-    write_post(page_id, text, published)
-
+    args={}
+    args['message'] = request.args['text']
+    args['published']= request.args['p_type'] == 'Published'
+    write_post(page_id, args)
     return render_template('write_done.html')
 
 
 
 
+
 @app.route('/pages')
-def babe():
-    #return redirect(url_for('show_pages'))
-    #return render_template('login.html', app_id=app_id, name="testing")
+def main_page():
 
     pages=get_accounts()
     #print (pages, file=sys.stderr)
